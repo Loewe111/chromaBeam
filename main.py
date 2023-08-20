@@ -6,13 +6,24 @@ import threading
 import asyncio
 
 import effects
+import argparse
 
-FRAMERATE = 60
-WINDOWED_SIZE = (1280, 720)
-OSC_IP = "127.0.0.1"
-OSC_PORT = 1337
-MODE = 1 # 0 = OSC, 1 = DMX over OSC
-DMX_START_ADDRESS = 1
+parser = argparse.ArgumentParser(description="ChromaBeam - Convert any projector into a Show Laser")
+parser.add_argument("-m", "--mode", type=int, default=1, help="0 = OSC, 1 = DMX over OSC")
+parser.add_argument("--dmx-start-address", type=int, default=1, help="DMX start address")
+parser.add_argument("-i", "--osc-ip", type=str, default="127.0.0.1", help="OSC IP")
+parser.add_argument("-p", "--osc-port", type=int, default=1337, help="OSC port")
+parser.add_argument("--windowed-size", type=int, nargs=2, default=[1280, 720], help="Windowed size")
+parser.add_argument("--framerate", type=int, default=60, help="Framerate")
+parser.add_argument("-f", "--fullscreen", type=bool, default=False, help="Start in fullscreen mode")
+args = parser.parse_args()
+
+FRAMERATE = args.framerate
+WINDOWED_SIZE = args.windowed_size
+OSC_IP = args.osc_ip
+OSC_PORT = args.osc_port
+MODE = args.mode # 0 = OSC, 1 = DMX over OSC
+DMX_START_ADDRESS = args.dmx_start_address
 
 ADDRESSES = [
   "dimmer",
@@ -28,7 +39,10 @@ ADDRESSES = [
 pygame.init()
 logo = pygame.image.load('images/logo128.png') 
 pygame.display.set_icon(logo)
-screen = pygame.display.set_mode(WINDOWED_SIZE)
+if args.fullscreen:
+  screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+else:
+  screen = pygame.display.set_mode(WINDOWED_SIZE)
 pygame.display.set_caption("ChromaBeam")
 pygame.time.set_timer(pygame.USEREVENT, 1000 // FRAMERATE)
 
