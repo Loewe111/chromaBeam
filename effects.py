@@ -61,4 +61,4 @@ class EffectDots():
       position = pygame.Vector2()
       position.from_polar((distance, i + radius))
 
-      pygame.draw.circle(self.screen, self.color, (int(center.x + position.x), int(center.y + position.y)), self.width * 100)
+      pygame.draw.circle(self.screen, self.color, (int(center.x + position.x), int(center.y + position.y)), int(self.width * 100))
