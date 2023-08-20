@@ -1,3 +1,4 @@
+import random
 import pygame
 
 class EffectScrollingLine():
@@ -62,3 +63,48 @@ class EffectDots():
       position.from_polar((distance, i + radius))
 
       pygame.draw.circle(self.screen, self.color, (int(center.x + position.x), int(center.y + position.y)), int(self.width * 100))
+
+class EffectStars():
+  def __init__(self, screen):
+    self.screen = screen
+    self.frame = 0
+
+    self.speed = 1
+    self.color = [255, 255, 255]
+    self.seed = 0.5
+    self.width = 0.5
+
+    self.stars = []
+    self.size = 3000
+    for i in range(0, 1000):
+      self.stars.append(pygame.Vector2(random.randint(0, self.size), random.randint(0, self.size)))
+
+  def getScreenSize(self):
+    size = {}
+    size["x"] = self.screen.get_width()
+    size["y"] = self.screen.get_height()
+    return size
+  
+  def draw(self):
+    screen = self.getScreenSize()
+    center = pygame.Vector2(screen["x"] / 2, screen["y"] / 2)
+
+    self.frame += self.speed
+    if self.frame > 360:
+      self.frame = 0
+
+    radius = int(self.frame)
+
+    for star in self.stars:
+      position = pygame.Vector2()
+      position = star - pygame.Vector2(self.size / 2, self.size / 2)
+      position.as_polar()
+
+      newpos = pygame.Vector2()
+      newpos.from_polar((position.length(), position.angle_to(center) + radius))
+      # scale by seed
+      newpos.scale_to_length(position.length() * (self.seed + 0.5))
+      # move to center
+      newpos += center
+
+      pygame.draw.circle(self.screen, self.color, (int(newpos.x), int(newpos.y)), int(self.width * 10))
