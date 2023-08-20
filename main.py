@@ -1,3 +1,4 @@
+import time
 import pygame
 import sys
 from pythonosc import dispatcher
@@ -36,16 +37,6 @@ ADDRESSES = [
   "width"
 ]
 
-pygame.init()
-logo = pygame.image.load('images/logo128.png') 
-pygame.display.set_icon(logo)
-if args.fullscreen:
-  screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-else:
-  screen = pygame.display.set_mode(WINDOWED_SIZE)
-pygame.display.set_caption("ChromaBeam")
-pygame.time.set_timer(pygame.USEREVENT, 1000 // FRAMERATE)
-
 effectObjects = []
 currentEffect = 0
 effectSettings = {
@@ -57,13 +48,14 @@ effectSettings = {
   "alpha": 0,
 }
 
-for name, clazz in effects.__dict__.items():
-  if callable(clazz) and name.startswith("Effect"):
-    effectObjects.append(clazz(screen))
-
-if len(effectObjects) == 0:
-  print("No effects found!")
-  sys.exit(1)
+def splashScreen():
+  screen.fill((0, 0, 0))
+  logo = pygame.image.load('images/logo_splash.png')
+  # center logo
+  logoRect = logo.get_rect()
+  logoRect.center = screen.get_rect().center
+  screen.blit(logo, logoRect)
+  pygame.display.update()
 
 def isAddress(value, address):
   if MODE == 0:
@@ -149,6 +141,31 @@ def mainLoop():
       elif event.type == pygame.USEREVENT:
         draw()
 
+# Initialize pygame
+
+pygame.init()
+logo = pygame.image.load('images/logo128.png') 
+pygame.display.set_icon(logo)
+if args.fullscreen:
+  screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+else:
+  screen = pygame.display.set_mode(WINDOWED_SIZE)
+pygame.display.set_caption("ChromaBeam")
+
+# Load effects
+
+for name, clazz in effects.__dict__.items():
+  if callable(clazz) and name.startswith("Effect"):
+    effectObjects.append(clazz(screen))
+
+if len(effectObjects) == 0:
+  print("No effects found!")
+  sys.exit(1)
+
+# Show splash screen
+splashScreen()
+time.sleep(2)
+
 # Create a dispatcher for OSC messages
 dispatcher = dispatcher.Dispatcher()
 dispatcher.map("/message", oscHandler)  # Replace "/message" with your desired OSC address
@@ -161,5 +178,6 @@ server_thread = threading.Thread(target=lambda: server.serve_forever(), daemon=T
 server_thread.start()
 
 # Start the main loop
+pygame.time.set_timer(pygame.USEREVENT, 1000 // FRAMERATE)
 mainLoop()
 server.shutdown()

@@ -9,7 +9,7 @@
    id="svg5"
    inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
    sodipodi:docname="logo.svg"
-   inkscape:export-filename="logo512.png"
+   inkscape:export-filename="logo_splash.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -33,9 +33,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="0.5"
-     inkscape:cx="-21"
-     inkscape:cy="333"
+     inkscape:zoom="1"
+     inkscape:cx="35"
+     inkscape:cy="161.5"
      inkscape:window-width="2400"
      inkscape:window-height="1261"
      inkscape:window-x="2391"
@@ -118,7 +118,7 @@
      id="layer1">
     <g
        id="g1159"
-       transform="translate(-10,234.5)"
+       transform="translate(-10,234)"
        style="display:inline"
        inkscape:label="projector">
       <rect
