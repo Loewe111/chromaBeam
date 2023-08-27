@@ -162,10 +162,6 @@ if len(effectObjects) == 0:
   print("No effects found!")
   sys.exit(1)
 
-# Show splash screen
-splashScreen()
-time.sleep(2)
-
 # Create a dispatcher for OSC messages
 dispatcher = dispatcher.Dispatcher()
 dispatcher.map("/message", oscHandler)  # Replace "/message" with your desired OSC address
