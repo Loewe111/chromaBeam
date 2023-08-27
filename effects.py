@@ -109,7 +109,7 @@ class EffectStars():
 
       pygame.draw.circle(self.screen, self.color, (int(newpos.x), int(newpos.y)), int(self.width * 10))
 
-class EffectMovingSquares():
+class EffectGridSquares():
   def __init__(self, screen):
     self.screen = screen
 
@@ -134,3 +134,4 @@ class EffectMovingSquares():
     for i in range(0, num_squares):
       for j in range(0, num_squares):
         pygame.draw.rect(self.screen, self.color, (i * square_areas.x + square_positions.x, j * square_areas.y + square_positions.y, square_sizes.x, square_sizes.y), border_radius= 10)
+
