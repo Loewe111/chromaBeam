@@ -108,3 +108,29 @@ class EffectStars():
       newpos += center
 
       pygame.draw.circle(self.screen, self.color, (int(newpos.x), int(newpos.y)), int(self.width * 10))
+
+class EffectMovingSquares():
+  def __init__(self, screen):
+    self.screen = screen
+
+    self.speed = 1
+    self.color = [255, 255, 255]
+    self.seed = 0.5
+    self.width = 0.5
+
+  def getScreenSize(self):
+    size = {}
+    size["x"] = self.screen.get_width()
+    size["y"] = self.screen.get_height()
+    return size
+  
+  def draw(self):
+    screen = self.getScreenSize()
+    num_squares = int(self.seed * 10) + 1
+    square_areas = pygame.Vector2(screen["x"] / num_squares, screen["y"] / num_squares)
+    square_sizes = pygame.Vector2(square_areas.x * self.width, square_areas.y * self.width)
+    square_positions = pygame.Vector2((square_areas.x - square_sizes.x) / 2, (square_areas.y - square_sizes.y) / 2)
+
+    for i in range(0, num_squares):
+      for j in range(0, num_squares):
+        pygame.draw.rect(self.screen, self.color, (i * square_areas.x + square_positions.x, j * square_areas.y + square_positions.y, square_sizes.x, square_sizes.y), border_radius= 10)
